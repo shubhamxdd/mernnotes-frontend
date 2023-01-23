@@ -1,16 +1,21 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 const Navbar = (props) => {
+  let history = useHistory()
     let location = useLocation()
+    const logout = () => {
+      localStorage.removeItem("token");
+      history.push("/login");
+    }
     // useEffect(() => {
     //   console.log(location.pathname);
     // }, [location])
-    
   return (
     <div>
       <nav
-        className="navbar navbar-expand-lg bg-body-tertiary"
+        className="navbar navbar-expand-lg bg-body-tertiary fixed-top"
+        // todo sticky and dark mode
         data-bs-theme="dark"
       >
         {/* TODO: Add toggle for dark mode */}
@@ -42,41 +47,12 @@ const Navbar = (props) => {
                 </Link>
               </li>
               <li className="nav-item dropdown">
-                {/* <Link
-                  className="nav-link dropdown-toggle"
-                  to="/"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Dropdown
-                </Link>
-                <ul className="dropdown-menu">
-                  <li>
-                    <Link className="dropdown-item" to="/">
-                      Action
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/">
-                      Another action
-                    </Link>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/">
-                      Something else here
-                    </Link>
-                  </li>
-                </ul> */}
               </li>
             </ul>
-            <form className="d-flex" role="search">
+            {!localStorage.getItem("token")?<form className="d-flex" role="search">
               <Link className="btn btn-primary mx-2" to="/login" role="button">Login</Link>
               <Link className="btn btn-primary" to="/signup" role="button">Signup</Link>
-            </form>
+            </form>:<button onClick={logout} className="btn btn-primary">Log Out</button>}
           </div>
         </div>
       </nav>

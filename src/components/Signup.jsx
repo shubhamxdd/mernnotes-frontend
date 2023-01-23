@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-const Signup = () => {
+const Signup = (props) => {
   const [credentials, setCredentials] = useState({
     name: "",
     email: "",
@@ -11,7 +11,7 @@ const Signup = () => {
   const history = useHistory();
 
   const onSubmit = async (e) => {
-    const {name, email, password} = credentials
+    const { name, email, password } = credentials;
     const host = "http://localhost:5132";
     e.preventDefault();
     const response = await fetch(`${host}/api/auth/createuser`, {
@@ -30,8 +30,9 @@ const Signup = () => {
     if (json.success) {
       localStorage.setItem("token", json.authToken);
       history.push("/");
+      props.showAlert("Signed in Successfully", "success");
     } else {
-      alert("invalid credentials");
+      props.showAlert("Invalid Details", "warning");
     }
   };
 
@@ -40,7 +41,7 @@ const Signup = () => {
   };
   return (
     <div className="container">
-      <h1 className="mb-3">Sign Up</h1>
+      <h1 className="mt-3 mb-3" style={{paddingTop: "50px"}}>Sign Up</h1>
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">
