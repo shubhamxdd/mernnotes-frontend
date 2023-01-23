@@ -69,11 +69,11 @@ const NoteState = (props) => {
     setNotes(newNotes);
   };
 
-  const updateNote = async (id, title, description, tag) => {
+  const editNote = async (id, title, description, tag) => {
     
-    
+//eslint-disable-next-line
     const response = await fetch(`${host}/api/notes/updatenote/${id}`,{
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNjMTM4NzAzOGQ4OGNmMWU5YWJiMDc0In0sImlhdCI6MTY3MzYwNzI5N30.65cE8SDCHbGiBnO2vkO-s81FKs7op_xF-m7D570DJLg"
@@ -81,18 +81,28 @@ const NoteState = (props) => {
       body: JSON.stringify({title, description, tag})
     })
     // const json =  response.json()
-    for (let index = 0; index < notes.length; index++) {
-      const element = notes[index];
+
+
+    let newNotes = JSON.parse(JSON.stringify(notes))
+
+
+
+
+
+    for (let index = 0; index < newNotes.length; index++) {
+      const element = newNotes[index];
       if (element._id === id) {
-        element.title = title;
-        element.description = description;
-        element.tag = tag;
+        newNotes[index].title = title;
+        newNotes[index].description = description;
+        newNotes[index].tag = tag;
+        break;
       }
     }
+    setNotes(newNotes)
   };
 
   return (
-    <NoteContext.Provider value={{ notes, addNote, deleteNote, updateNote, getNote }}>
+    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNote }}>
       {props.children}
     </NoteContext.Provider>
   );
