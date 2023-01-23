@@ -18,7 +18,7 @@ const AddNote = () => {
     <div>
       <div className="container my-3">
         <h1>Add a Note</h1>
-        {/* <form className="my-3"> */}
+        <form className="my-3">
           <div className="mb-3">
             <label htmlFor="title" className="form-label">
               Title
@@ -49,9 +49,9 @@ const AddNote = () => {
             className="btn btn-primary"
             onClick={handleClick}
           >
-            Submit
+            Add Note
           </button>
-        {/* </form> */}
+        </form>
       </div>
     </div>
   );
